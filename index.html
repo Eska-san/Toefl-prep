@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEFL Prep — Entraînement Complet</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap');
+
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --card: #1a2234;
+    --border: #2a3a55;
+    --accent: #00d4ff;
+    --accent2: #ff6b35;
+    --accent3: #7c3aed;
+    --green: #22c55e;
+    --red: #ef4444;
+    --yellow: #f59e0b;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  header {
+    position: relative;
+    z-index: 10;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,14,26,0.8);
+    backdrop-filter: blur(12px);
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--accent); }
+
+  .score-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    background: rgba(0,212,255,0.1);
+    border: 1px solid rgba(0,212,255,0.3);
+    padding: 6px 14px;
+    border-radius: 20px;
+  }
+
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 24px;
+  }
+
+  .nav-tabs {
+    display: flex;
+    gap: 6px;
+    background: var(--surface);
+    padding: 6px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    flex: 1;
+    min-width: 100px;
+    padding: 10px 16px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: var(--muted);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+  .tab-btn.active { background: var(--accent); color: #000; }
+
+  .screen { display: none; }
+  .screen.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .dash-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .stat-card.reading::after { background: var(--accent); }
+  .stat-card.listening::after { background: var(--accent2); }
+  .stat-card.speaking::after { background: var(--green); }
+  .stat-card.writing::after { background: var(--accent3); }
+
+  .stat-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .stat-score { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; line-height: 1; }
+  .stat-card.reading .stat-score { color: var(--accent); }
+  .stat-card.listening .stat-score { color: var(--accent2); }
+  .stat-card.speaking .stat-score { color: var(--green); }
+  .stat-card.writing .stat-score { color: var(--accent3); }
+  .stat-max { font-size: 14px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
+
+  .section-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .modules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+
+  .module-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .module-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,212,255,0.12); }
+  .module-icon { font-size: 28px; margin-bottom: 10px; }
+  .module-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+  .module-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .module-tag { display: inline-block; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; padding: 3px 8px; border-radius: 4px; background: rgba(0,212,255,0.1); color: var(--accent); border: 1px solid rgba(0,212,255,0.2); }
+
+  .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+  .quiz-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); }
+
+  .timer { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: var(--accent); background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.3); padding: 8px 18px; border-radius: 8px; min-width: 80px; text-align: center; }
+  .timer.warning { color: var(--red); background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); }
+
+  .progress-bar { width: 100%; height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 28px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent3)); border-radius: 2px; transition: width 0.4s ease; }
+
+  .question-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; margin-bottom: 20px; }
+  .question-type { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent2); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+  .question-text { font-size: 16px; line-height: 1.65; margin-bottom: 20px; color: var(--text); }
+  .passage-text { font-size: 14px; line-height: 1.7; color: #94a3b8; background: rgba(0,0,0,0.3); border-left: 3px solid var(--accent); padding: 16px 18px; border-radius: 0 8px 8px 0; margin-bottom: 20px; font-style: italic; }
+
+  .options-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .option-btn { width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; text-align: left; color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 12px; }
+  .option-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(0,212,255,0.06); }
+  .option-btn.correct { border-color: var(--green); background: rgba(34,197,94,0.1); color: var(--green); }
+  .option-btn.wrong { border-color: var(--red); background: rgba(239,68,68,0.1); color: var(--red); }
+  .option-btn:disabled { cursor: default; }
+  .option-letter { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; width: 22px; height: 22px; border: 1px solid currentColor; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+  .explanation-box { background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-top: 14px; font-size: 13px; color: #94a3b8; line-height: 1.6; }
+  .explanation-box strong { color: var(--accent); font-family: 'IBM Plex Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 6px; }
+
+  .btn { padding: 12px 24px; border-radius: 8px; border: none; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; letter-spacing: 0.3px; }
+  .btn-primary { background: var(--accent); color: #000; }
+  .btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  .btn-outline:hover { background: rgba(0,212,255,0.1); }
+  .actions-row { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
+
+  .result-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 40px; text-align: center; }
+  .result-score { font-family: 'Syne', sans-serif; font-size: 72px; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 8px; }
+  .result-label { color: var(--muted); font-size: 15px; margin-bottom: 28px; }
+  .result-bars { display: flex; flex-direction: column; gap: 10px; margin: 20px 0 28px; text-align: left; }
+  .result-bar-row { display: flex; align-items: center; gap: 12px; font-size: 13px; }
+  .result-bar-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); width: 90px; flex-shrink: 0; }
+  .result-bar-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .result-bar-fill { height: 100%; border-radius: 3px; background: var(--accent); transition: width 0.8s ease; }
+  .result-bar-val { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--accent); width: 40px; text-align: right; }
+
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  .vocab-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; cursor: pointer; transition: all 0.25s; position: relative; min-height: 120px; }
+  .vocab-card:hover { border-color: var(--accent3); }
+  .vocab-card.flipped .vocab-front { display: none; }
+  .vocab-card.flipped .vocab-back { display: block; }
+  .vocab-back { display: none; }
+  .vocab-word { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+  .vocab-pos { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent3); margin-bottom: 8px; }
+  .vocab-hint { font-size: 12px; color: var(--muted); font-style: italic; }
+  .vocab-def { font-size: 13px; color: var(--text); line-height: 1.5; margin-bottom: 8px; }
+  .vocab-example { font-size: 12px; color: var(--muted); font-style: italic; border-left: 2px solid var(--accent3); padding-left: 8px; }
+  .flip-hint { position: absolute; top: 12px; right: 12px; font-size: 10px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
+
+  .writing-prompt { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; margin-bottom: 20px; }
+  .writing-prompt .label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent2); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  textarea.writing-area { width: 100%; min-height: 220px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 8px; padding: 16px; color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; line-height: 1.6; resize: vertical; outline: none; transition: border-color 0.2s; }
+  textarea.writing-area:focus { border-color: var(--accent); }
+  .word-count { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); text-align: right; margin-top: 6px; }
+  .word-count.ok { color: var(--green); }
+
+  .ai-feedback { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; margin-top: 16px; }
+  .ai-feedback .label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+  .feedback-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 14px; }
+  .feedback-item { text-align: center; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px; }
+  .feedback-score { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 700; color: var(--accent); }
+  .feedback-label { font-size: 11px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
+  .feedback-text { font-size: 13px; color: #94a3b8; line-height: 1.65; }
+
+  .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .toast { position: fixed; bottom: 30px; right: 30px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 20px; font-size: 14px; z-index: 999; transform: translateY(80px); opacity: 0; transition: all 0.3s; max-width: 300px; }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.success { border-color: var(--green); color: var(--green); }
+  .toast.error { border-color: var(--red); color: var(--red); }
+  .toast.info { border-color: var(--accent); color: var(--accent); }
+
+  .strategy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+  .strategy-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .strategy-num { font-family: 'Syne', sans-serif; font-size: 40px; font-weight: 800; color: rgba(0,212,255,0.15); line-height: 1; margin-bottom: 6px; }
+  .strategy-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+  .strategy-body { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  @media (max-width: 600px) {
+    header { padding: 14px 16px; }
+    main { padding: 20px 12px; }
+    .result-score { font-size: 52px; }
+    .nav-tabs { gap: 4px; }
+    .tab-btn { padding: 8px 10px; font-size: 12px; min-width: 60px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">TOEFL<span>prep</span></div>
+  <div class="score-badge" id="global-score">Score estimé: — / 120</div>
+</header>
+
+<div class="toast" id="toast"></div>
+
+<main>
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="showScreen('dashboard')">🏠 Accueil</button>
+    <button class="tab-btn" onclick="showScreen('quiz')">❓ Quiz</button>
+    <button class="tab-btn" onclick="showScreen('vocab')">📚 Vocabulaire</button>
+    <button class="tab-btn" onclick="showScreen('writing')">✍️ Rédaction</button>
+    <button class="tab-btn" onclick="showScreen('test')">🎯 Test complet</button>
+    <button class="tab-btn" onclick="showScreen('strategy')">💡 Stratégies</button>
+  </div>
+
+  <div id="screen-dashboard" class="screen active">
+    <div class="dash-grid">
+      <div class="stat-card reading"><div class="stat-label">Reading</div><div class="stat-score" id="score-reading">—</div><div class="stat-max">/ 30 pts</div></div>
+      <div class="stat-card listening"><div class="stat-label">Listening</div><div class="stat-score" id="score-listening">—</div><div class="stat-max">/ 30 pts</div></div>
+      <div class="stat-card speaking"><div class="stat-label">Speaking</div><div class="stat-score" id="score-speaking">—</div><div class="stat-max">/ 30 pts</div></div>
+      <div class="stat-card writing"><div class="stat-label">Writing</div><div class="stat-score" id="score-writing">—</div><div class="stat-max">/ 30 pts</div></div>
+    </div>
+    <div class="section-title">Modules d'entraînement</div>
+    <div class="modules-grid">
+      <div class="module-card" onclick="startQuiz('reading')"><div class="module-icon">📖</div><div class="module-name">Reading Practice</div><div class="module-desc">Passages académiques, questions de compréhension, vocabulaire en contexte.</div><span class="module-tag">10 questions · 15 min</span></div>
+      <div class="module-card" onclick="startQuiz('grammar')"><div class="module-icon">🔤</div><div class="module-name">Grammar & Structure</div><div class="module-desc">Structures de phrases, temps verbaux, connecteurs logiques.</div><span class="module-tag">10 questions · 10 min</span></div>
+      <div class="module-card" onclick="startQuiz('vocab-quiz')"><div class="module-icon">🧠</div><div class="module-name">Vocabulary Quiz</div><div class="module-desc">Mots académiques fréquents au TOEFL, synonymes, définitions.</div><span class="module-tag">10 questions · 8 min</span></div>
+      <div class="module-card" onclick="showScreen('vocab')"><div class="module-icon">🃏</div><div class="module-name">Flashcards</div><div class="module-desc">240+ mots académiques clés classés par thème. Retournez les cartes.</div><span class="module-tag">Révision libre</span></div>
+      <div class="module-card" onclick="showScreen('writing')"><div class="module-icon">✍️</div><div class="module-name">Writing Task</div><div class="module-desc">Prompt intégré ou indépendant avec évaluation IA en temps réel.</div><span class="module-tag">IA · 30 min</span></div>
+      <div class="module-card" onclick="showScreen('test')"><div class="module-icon">🎯</div><div class="module-name">Simulation Complète</div><div class="module-desc">Test TOEFL iBT simulé avec toutes sections et score estimé sur 120.</div><span class="module-tag">Test complet · ~3h</span></div>
+    </div>
+  </div>
+
+  <div id="screen-quiz" class="screen">
+    <div id="quiz-setup">
+      <div class="section-title">Choisir un module</div>
+      <div class="modules-grid">
+        <div class="module-card" onclick="startQuiz('reading')"><div class="module-icon">📖</div><div class="module-name">Reading</div><div class="module-desc">Compréhension de textes académiques</div><span class="module-tag">10 q</span></div>
+        <div class="module-card" onclick="startQuiz('grammar')"><div class="module-icon">🔤</div><div class="module-name">Grammaire</div><div class="module-desc">Structures & connecteurs logiques</div><span class="module-tag">10 q</span></div>
+        <div class="module-card" onclick="startQuiz('vocab-quiz')"><div class="module-icon">🧠</div><div class="module-name">Vocabulaire</div><div class="module-desc">Mots académiques TOEFL</div><span class="module-tag">10 q</span></div>
+        <div class="module-card" onclick="startQuiz('mixed')"><div class="module-icon">🔀</div><div class="module-name">Mix Aléatoire</div><div class="module-desc">Questions variées toutes sections</div><span class="module-tag">15 q</span></div>
+      </div>
+    </div>
+    <div id="quiz-active" style="display:none">
+      <div class="quiz-header">
+        <div>
+          <div class="section-title" style="margin-bottom:0" id="quiz-title">Reading Quiz</div>
+          <div class="quiz-meta" id="quiz-counter">Question 1 / 10</div>
+        </div>
+        <div class="timer" id="quiz-timer">15:00</div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="quiz-progress"></div></div>
+      <div id="quiz-content"></div>
+      <div class="actions-row">
+        <button class="btn btn-outline" onclick="skipQuestion()">Passer →</button>
+        <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()" disabled>Question suivante</button>
+      </div>
+    </div>
+    <div id="quiz-results" style="display:none">
+      <div class="result-card">
+        <div class="result-score" id="result-score-val">0%</div>
+        <div class="result-label" id="result-label">Résultats du quiz</div>
+        <div class="result-bars" id="result-bars"></div>
+        <div class="actions-row" style="justify-content:center; margin-top:0">
+          <button class="btn btn-outline" onclick="resetQuiz()">↩ Rejouer</button>
+          <button class="btn btn-primary" onclick="showScreen('dashboard')">Tableau de bord</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-vocab" class="screen">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px">
+      <div class="section-title" style="margin-bottom:0">Flashcards Vocabulaire</div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted)">Cliquez pour retourner</div>
+    </div>
+    <div style="display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap">
+      <button class="btn btn-outline" style="font-size:12px;padding:8px 14px" onclick="filterVocab('all')">Tous</button>
+      <button class="btn btn-outline" style="font-size:12px;padding:8px 14px" onclick="filterVocab('academic')">Académique</button>
+      <button class="btn btn-outline" style="font-size:12px;padding:8px 14px" onclick="filterVocab('science')">Sciences</button>
+      <button class="btn btn-outline" style="font-size:12px;padding:8px 14px" onclick="filterVocab('social')">Social</button>
+    </div>
+    <div class="vocab-grid" id="vocab-grid"></div>
+  </div>
+
+  <div id="screen-writing" class="screen">
+    <div class="section-title">Writing Practice</div>
+    <div style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap">
+      <button class="btn btn-outline" style="font-size:12px;padding:8px 14px" onclick="loadWritingPrompt('integrated')">📎 Intégré</button>
+      <button class="btn btn-outline" style="font-size:12px;padding:8px 14px" onclick="loadWritingPrompt('independent')">💭 Indépendant</button>
+      <button class="btn btn-outline" style="font-size:12px;padding:8px 14px" onclick="loadWritingPrompt('random')">🎲 Aléatoire</button>
+    </div>
+    <div id="writing-prompt-box"></div>
+    <div id="writing-area-container" style="display:none">
+      <textarea class="writing-area" id="writing-textarea" placeholder="Rédigez votre réponse ici..." oninput="updateWordCount()"></textarea>
+      <div class="word-count" id="word-count">0 mots</div>
+      <div class="actions-row">
+        <button class="btn btn-outline" onclick="clearWriting()">Effacer</button>
+        <button class="btn btn-primary" onclick="analyzeWriting()">Analyser avec IA ✨</button>
+      </div>
+    </div>
+    <div id="writing-feedback"></div>
+  </div>
+
+  <div id="screen-test" class="screen">
+    <div id="test-intro">
+      <div class="section-title">Simulation TOEFL iBT</div>
+      <div class="writing-prompt" style="margin-bottom:20px">
+        <div class="label">À propos du test</div>
+        <p style="font-size:14px; line-height:1.7; color:#94a3b8; margin-bottom:12px">Ce test simulé reproduit les conditions réelles du TOEFL iBT. Il comprend 4 sections avec minuterie. Un score estimé sur 120 sera calculé à la fin.</p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:10px; margin-top:14px">
+          <div style="background:rgba(0,0,0,0.3); padding:12px; border-radius:8px; text-align:center"><div style="font-family:'Syne',sans-serif; font-weight:700; color:var(--accent)">Reading</div><div style="font-size:12px; color:var(--muted)">12 min · 8 questions</div></div>
+          <div style="background:rgba(0,0,0,0.3); padding:12px; border-radius:8px; text-align:center"><div style="font-family:'Syne',sans-serif; font-weight:700; color:var(--accent2)">Grammar</div><div style="font-size:12px; color:var(--muted)">10 min · 8 questions</div></div>
+          <div style="background:rgba(0,0,0,0.3); padding:12px; border-radius:8px; text-align:center"><div style="font-family:'Syne',sans-serif; font-weight:700; color:var(--green)">Vocabulary</div><div style="font-size:12px; color:var(--muted)">8 min · 6 questions</div></div>
+        </div>
+      </div>
+      <div class="actions-row" style="justify-content:center">
+        <button class="btn btn-primary" style="font-size:16px; padding:14px 32px" onclick="startFullTest()">🚀 Démarrer la simulation</button>
+      </div>
+    </div>
+    <div id="test-active" style="display:none">
+      <div class="quiz-header">
+        <div>
+          <div class="section-title" style="margin-bottom:0" id="test-section-title">Section: Reading</div>
+          <div class="quiz-meta" id="test-counter">Question 1 / 8</div>
+        </div>
+        <div class="timer" id="test-timer">12:00</div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="test-progress"></div></div>
+      <div id="test-content"></div>
+      <div class="actions-row">
+        <button class="btn btn-outline" onclick="skipTestQuestion()">Passer →</button>
+        <button class="btn btn-primary" id="test-next-btn" onclick="nextTestQuestion()" disabled>Suivant</button>
+      </div>
+    </div>
+    <div id="test-results" style="display:none">
+      <div class="result-card">
+        <div class="result-score" id="test-result-score">—</div>
+        <div class="result-label">Score estimé sur 120</div>
+        <div id="test-result-level" style="margin-bottom:20px; font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--accent2)"></div>
+        <div class="result-bars" id="test-result-bars"></div>
+        <div class="actions-row" style="justify-content:center; margin-top:0">
+          <button class="btn btn-outline" onclick="resetTest()">↩ Recommencer</button>
+          <button class="btn btn-primary" onclick="showScreen('dashboard')">Accueil</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-strategy" class="screen">
+    <div class="section-title">Stratégies TOEFL</div>
+    <div class="strategy-grid" id="strategy-grid"></div>
+  </div>
+</main>
+
+<script>
+const READING_QUESTIONS = [
+  { type:"Reading Comprehension", passage:"The Industrial Revolution, which began in Britain in the late 18th century, fundamentally transformed manufacturing processes. The shift from hand production to machine-based manufacturing was driven by several factors, including technological innovation, access to coal and iron, and the availability of capital for investment.", question:"According to the passage, what was NOT mentioned as a factor driving the Industrial Revolution?", options:["Technological innovation","Access to coal and iron","Government subsidies","Availability of capital"], correct:2, explanation:"The passage lists technological innovation, access to coal/iron, and capital availability. Government subsidies are not mentioned." },
+  { type:"Vocabulary in Context", passage:"Scientists have postulated that dark matter comprises approximately 27% of the universe, though it has never been directly observed.", question:"The word 'postulated' in the passage is closest in meaning to:", options:["Disproved","Hypothesized","Confirmed","Ignored"], correct:1, explanation:"'Postulate' means to suggest or assume as a fact for the purpose of argument or theory — closest to 'hypothesize'." },
+  { type:"Inference", passage:"While many species migrate seasonally, the Arctic tern undertakes the longest known migration of any animal — traveling approximately 70,000 km annually between the Arctic and Antarctic.", question:"What can be inferred about the Arctic tern from the passage?", options:["It is the fastest bird in the world","It spends most of its life in the Arctic","It experiences two summers per year","It migrates with other species"], correct:2, explanation:"By traveling between Arctic (summer) and Antarctic (summer), the tern experiences two summers each year." },
+  { type:"Main Idea", passage:"Cognitive load theory suggests that learning is hindered when working memory becomes overloaded. Instructional designers must therefore carefully manage the amount and complexity of information presented to learners at any one time.", question:"What is the main idea of this passage?", options:["Working memory is unlimited","Learning requires minimal effort","Effective instruction considers memory limits","Complex information is always harder to learn"], correct:2, explanation:"The passage argues that instructional design must account for working memory limitations." },
+  { type:"Reference", passage:"Economists often debate whether inflation or deflation poses a greater risk. The former erodes purchasing power, while the latter can lead to a deflationary spiral where falling prices cause reduced production.", question:"The word 'former' in the passage refers to:", options:["Deflation","Recession","Inflation","Purchasing power"], correct:2, explanation:"'The former' refers to the first of two items mentioned: inflation, which erodes purchasing power." }
+];
+
+const GRAMMAR_QUESTIONS = [
+  { type:"Sentence Structure", question:"Choose the grammatically correct sentence:", options:["The data clearly supports the hypothesis what was proposed.","The data clearly supports the hypothesis that was proposed.","The data clearly support the hypothesis which proposed.","The data clearly supported the hypothesis as proposed it."], correct:1, explanation:"'That was proposed' is the correct relative clause. 'What' cannot follow a noun antecedent in this context." },
+  { type:"Verb Tense", question:"Select the correct form: 'By the time the researchers published their findings, they ___ the experiment three times.'", options:["have repeated","had repeated","were repeating","repeated"], correct:1, explanation:"The past perfect ('had repeated') is used for an action completed before another past action ('published')." },
+  { type:"Connectors", question:"Which connector best completes the sentence? 'The treatment was experimental; ___, the patients consented to participate.'", options:["however","therefore","nonetheless","since"], correct:2, explanation:"'Nonetheless' (= despite this) correctly signals a concession." },
+  { type:"Subject-Verb Agreement", question:"Which sentence is correct?", options:["Neither the professor nor the students was prepared.","Neither the professor nor the students were prepared.","Neither the professor nor the students is prepared.","Neither the professor nor the students be prepared."], correct:1, explanation:"With 'neither...nor', the verb agrees with the subject closest to it. 'Students' (plural) → 'were'." },
+  { type:"Conditional", question:"Complete the sentence: 'Had the funding been approved, the project ___ by now.'", options:["will be completed","would be completed","would have been completed","has been completed"], correct:2, explanation:"Third conditional (past hypothetical): 'Had + past perfect → would have + past participle'." }
+];
+
+const VOCAB_QUESTIONS = [
+  { type:"Vocabulary", question:"The word 'ambiguous' most nearly means:", options:["Clear","Having multiple meanings","Irrelevant","Certain"], correct:1, explanation:"Ambiguous = open to more than one interpretation." },
+  { type:"Vocabulary", question:"Choose the word closest in meaning to 'proliferate':", options:["Diminish","Specialize","Multiply rapidly","Categorize"], correct:2, explanation:"Proliferate = to increase rapidly in number." },
+  { type:"Vocabulary", question:"'Unprecedented' means:", options:["Well-documented","Never having occurred before","Widely expected","Frequently repeated"], correct:1, explanation:"Unprecedented = having no previous instance or example." },
+  { type:"Vocabulary", question:"The term 'corroborate' is closest in meaning to:", options:["Contradict","Confirm","Question","Dismiss"], correct:1, explanation:"Corroborate = to confirm or give support to a statement or theory." },
+  { type:"Vocabulary", question:"Which word best replaces 'meticulous' in academic writing?", options:["Careless","Thorough","Hasty","Approximate"], correct:1, explanation:"Meticulous = showing great attention to detail; precise and careful." }
+];
+
+const ALL_QUESTIONS = [...READING_QUESTIONS, ...GRAMMAR_QUESTIONS, ...VOCAB_QUESTIONS];
+
+const VOCAB_CARDS = [
+  { word:"Ambiguous", pos:"adj", hint:"When context is unclear", def:"Open to more than one interpretation; not having one obvious meaning.", example:"The professor's instructions were ambiguous, leaving students confused.", cat:"academic" },
+  { word:"Proliferate", pos:"v", hint:"Think: rapid growth", def:"To increase rapidly in number; to multiply or spread quickly.", example:"Social media platforms have proliferated over the past decade.", cat:"academic" },
+  { word:"Corroborate", pos:"v", hint:"Support + evidence", def:"To confirm or give support to a statement, theory, or finding.", example:"The new data corroborated the earlier hypothesis.", cat:"academic" },
+  { word:"Unprecedented", pos:"adj", hint:"Never seen before", def:"Never done or known before; without previous example.", example:"The storm caused unprecedented flooding in the region.", cat:"academic" },
+  { word:"Meticulous", pos:"adj", hint:"Very careful, detailed", def:"Showing great attention to detail; very careful and precise.", example:"The scientist kept meticulous records of every experiment.", cat:"academic" },
+  { word:"Hypothesis", pos:"n", hint:"Scientific guess", def:"A proposed explanation made on the basis of limited evidence, used as a starting point for investigation.", example:"The team's hypothesis was tested through a series of controlled experiments.", cat:"science" },
+  { word:"Empirical", pos:"adj", hint:"Based on evidence", def:"Based on observation or experience rather than theory or pure logic.", example:"Empirical evidence is essential in scientific research.", cat:"science" },
+  { word:"Paradigm", pos:"n", hint:"A model/framework", def:"A typical example or pattern; a framework within which theories are constructed.", example:"Einstein's theory represented a paradigm shift in physics.", cat:"academic" },
+  { word:"Autonomous", pos:"adj", hint:"Self-governing", def:"Having the freedom to act independently; self-governing.", example:"The new technology allows for more autonomous decision-making.", cat:"social" },
+  { word:"Coherent", pos:"adj", hint:"Logically consistent", def:"Logical and consistent; forming a unified whole.", example:"A coherent argument is essential for a high TOEFL writing score.", cat:"academic" },
+  { word:"Cognition", pos:"n", hint:"Mental processes", def:"The mental action or process of acquiring knowledge through thought, experience, and the senses.", example:"Cognitive scientists study how humans process language.", cat:"science" },
+  { word:"Aggregate", pos:"n/v", hint:"A collected whole", def:"A whole formed by combining several elements; to collect or gather into a mass.", example:"The aggregate data showed a clear upward trend.", cat:"academic" },
+  { word:"Catalyst", pos:"n", hint:"Something that sparks change", def:"An agent that provokes or speeds significant change or action.", example:"The invention of the internet was a catalyst for globalization.", cat:"academic" },
+  { word:"Disparate", pos:"adj", hint:"Very different", def:"Essentially different in kind; not allowing comparison.", example:"The study combined disparate fields including sociology and neuroscience.", cat:"academic" },
+  { word:"Infer", pos:"v", hint:"Read between the lines", def:"To deduce or conclude from evidence and reasoning rather than explicit statements.", example:"From the data, we can infer that demand will increase.", cat:"academic" },
+  { word:"Phenomenon", pos:"n", hint:"An observable fact/event", def:"A fact or situation that is observed to exist, especially one whose cause is in question.", example:"The aurora borealis is a natural phenomenon.", cat:"science" },
+  { word:"Ubiquitous", pos:"adj", hint:"Everywhere at once", def:"Present, appearing, or found everywhere.", example:"Smartphones have become ubiquitous in modern society.", cat:"social" },
+  { word:"Tenuous", pos:"adj", hint:"Thin, weak", def:"Very weak or slight; having little substance or strength.", example:"The connection between the two theories was tenuous at best.", cat:"academic" }
+];
+
+const WRITING_PROMPTS = {
+  integrated: [{ label:"Integrated Task (Reading + Listening)", passage:"The practice of rewilding — reintroducing native species to ecosystems from which they have been removed — has gained support among conservationists. Proponents argue that rewilding restores ecological balance, increases biodiversity, and can even help mitigate climate change through restored carbon sequestration by vegetation. Several successful projects in Europe and North America are frequently cited as evidence that the approach is viable and cost-effective.", prompt:"The reading passage presents arguments in favor of rewilding. Summarize the key points made in the passage and discuss whether you believe the approach is likely to be successful. Use specific details and examples in your response.", type:"integrated", time:20, minWords:150, maxWords:225 }],
+  independent: [
+    { label:"Independent Task", prompt:"Do you agree or disagree with the following statement? 'Universities should require all students to take courses in subjects outside their major field of study.' Use specific reasons and examples to support your answer.", type:"independent", time:30, minWords:300, maxWords:400 },
+    { label:"Independent Task", prompt:"Some people prefer to work in a team, while others prefer to work independently. Which do you prefer, and why? Use specific reasons and examples to support your choice.", type:"independent", time:30, minWords:300, maxWords:400 },
+    { label:"Independent Task", prompt:"Do you agree or disagree: 'Technology has made human communication less meaningful.' Support your position with specific reasons and examples.", type:"independent", time:30, minWords:300, maxWords:400 }
+  ]
+};
+
+const STRATEGIES = [
+  { num:"01", title:"Skimming & Scanning", body:"Pour le Reading : lisez d'abord les questions, puis scannez le passage pour les réponses. Ne lisez pas mot à mot — identifiez les mots-clés et naviguez directement aux sections pertinentes.", section:"Reading" },
+  { num:"02", title:"Process of Elimination", body:"Si vous ne connaissez pas la réponse, éliminez d'abord les options clairement incorrectes. Souvent 2 options sont absurdes — vous passez alors d'un choix sur 4 à un choix sur 2.", section:"All sections" },
+  { num:"03", title:"Note-taking actif", body:"Pour le Listening, prenez des notes sur les idées principales, pas sur chaque mot. Utilisez des abréviations personnelles. Le TOEFL iBT permet de prendre des notes pendant les écoutes.", section:"Listening" },
+  { num:"04", title:"Structure OREO", body:"Pour le Writing indépendant : Opinion – Raison – Exemple – Opinion (répétée). Chaque paragraphe = une raison + un exemple concret. Visez 4-5 paragraphes.", section:"Writing" },
+  { num:"05", title:"Gestion du temps", body:"Reading : ~1min 45s par question. Writing intégré : 20 min max. Ne restez jamais bloqué plus de 2 min sur une question — passez et revenez si le temps le permet.", section:"All sections" },
+  { num:"06", title:"Synonymes & Paraphrase", body:"Le TOEFL teste fréquemment la compréhension via synonymes. Apprenez 5-10 mots académiques par jour (liste AWL). La paraphrase exacte du texte n'est jamais la bonne réponse.", section:"Reading" },
+  { num:"07", title:"SPEAKING : PREP Method", body:"Pour le Speaking : Point – Reason – Example – Point. Prenez 15s pour organiser vos idées avant de parler. Parlez clairement et à rythme modéré — pas trop vite.", section:"Speaking" },
+  { num:"08", title:"Pièges du Listening", body:"Les mauvaises réponses au Listening reprennent souvent des mots du dialogue mais changent le sens. Méfiez-vous des 'détails vrais mais hors sujet'.", section:"Listening" },
+  { num:"09", title:"Cohérence & Cohésion", body:"Les correcteurs du Writing évaluent la cohérence. Utilisez des connecteurs variés : Furthermore, Nevertheless, In contrast, Consequently, This suggests that...", section:"Writing" },
+  { num:"10", title:"Score Target Strategy", body:"Score 100+ : visez 26+ partout. Score 80-99 : renforcez vos 2 sections les plus faibles. Score 60-79 : priorisez Reading et Writing qui ont le plus fort impact sur le score global.", section:"Strategy" }
+];
+
+let quizState = { questions:[], current:0, correct:0, answers:[], timer:null, timeLeft:0, type:'reading' };
+let testState = { section:0, sectionQ:0, answers:[], scores:{reading:0,listening:0,vocabulary:0}, timer:null, timeLeft:0 };
+let scores = { reading:null, listening:null, writing:null, speaking:null };
+
+const TEST_SECTIONS = [
+  { name:'Reading', color:'var(--accent)', questions:[], time:12*60 },
+  { name:'Grammar', color:'var(--accent2)', questions:[], time:10*60 },
+  { name:'Vocabulary', color:'var(--green)', questions:[], time:8*60 }
+];
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    const screens = ['dashboard','quiz','vocab','writing','test','strategy'];
+    b.classList.toggle('active', screens[i] === id);
+  });
+  if (id === 'vocab') renderVocab('all');
+  if (id === 'strategy') renderStrategies();
+  if (id === 'writing' && !document.getElementById('writing-prompt-box').innerHTML) loadWritingPrompt('random');
+}
+
+function startQuiz(type) {
+  showScreen('quiz');
+  quizState.type = type;
+  let qs;
+  if (type === 'reading') qs = [...READING_QUESTIONS];
+  else if (type === 'grammar') qs = [...GRAMMAR_QUESTIONS];
+  else if (type === 'vocab-quiz') qs = [...VOCAB_QUESTIONS];
+  else qs = shuffle([...ALL_QUESTIONS]).slice(0,15);
+  quizState.questions = shuffle(qs);
+  quizState.current = 0; quizState.correct = 0; quizState.answers = [];
+  const titles = {reading:'Reading Quiz', grammar:'Grammar Quiz', 'vocab-quiz':'Vocabulary Quiz', mixed:'Mix Aléatoire'};
+  document.getElementById('quiz-title').textContent = titles[type] || 'Quiz';
+  document.getElementById('quiz-setup').style.display = 'none';
+  document.getElementById('quiz-results').style.display = 'none';
+  document.getElementById('quiz-active').style.display = 'block';
+  const mins = type === 'mixed' ? 18 : 12;
+  startTimer('quiz-timer', mins * 60, () => endQuiz());
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = quizState.questions[quizState.current];
+  const total = quizState.questions.length;
+  document.getElementById('quiz-counter').textContent = `Question ${quizState.current+1} / ${total}`;
+  document.getElementById('quiz-progress').style.width = `${(quizState.current/total)*100}%`;
+  document.getElementById('next-btn').disabled = true;
+  let html = `<div class="question-card"><div class="question-type">${q.type}</div>`;
+  if (q.passage) html += `<div class="passage-text">${q.passage}</div>`;
+  html += `<div class="question-text">${q.question}</div><ul class="options-list">`;
+  ['A','B','C','D'].forEach((l,i) => { if(q.options[i]) html += `<li><button class="option-btn" id="opt-${i}" onclick="selectAnswer(${i})"><span class="option-letter">${l}</span>${q.options[i]}</button></li>`; });
+  html += `</ul></div>`;
+  document.getElementById('quiz-content').innerHTML = html;
+}
+
+function selectAnswer(idx) {
+  const q = quizState.questions[quizState.current];
+  const correct = q.correct;
+  quizState.answers.push({ correct: idx === correct });
+  if (idx === correct) quizState.correct++;
+  document.querySelectorAll('.option-btn').forEach((btn,i) => { btn.disabled = true; if(i===correct) btn.classList.add('correct'); else if(i===idx&&i!==correct) btn.classList.add('wrong'); });
+  document.getElementById('quiz-content').insertAdjacentHTML('beforeend', `<div class="explanation-box"><strong>Explication</strong>${q.explanation}</div>`);
+  document.getElementById('next-btn').disabled = false;
+  showToast(idx === correct ? '✓ Correct !' : '✗ Incorrect', idx === correct ? 'success' : 'error');
+}
+
+function nextQuestion() { quizState.current++; if(quizState.current >= quizState.questions.length){endQuiz();return;} renderQuestion(); }
+function skipQuestion() { quizState.answers.push({correct:false}); quizState.current++; if(quizState.current >= quizState.questions.length){endQuiz();return;} renderQuestion(); }
+
+function endQuiz() {
+  clearTimer('quiz-timer');
+  const total = quizState.questions.length;
+  const pct = Math.round((quizState.correct / total) * 100);
+  document.getElementById('quiz-active').style.display = 'none';
+  document.getElementById('quiz-results').style.display = 'block';
+  document.getElementById('result-score-val').textContent = pct + '%';
+  document.getElementById('result-label').textContent = `${quizState.correct} / ${total} bonnes réponses · ${getGrade(pct)}`;
+  document.getElementById('result-bars').innerHTML = `
+    <div class="result-bar-row"><div class="result-bar-label">Score</div><div class="result-bar-track"><div class="result-bar-fill" style="width:${pct}%"></div></div><div class="result-bar-val">${pct}%</div></div>
+    <div class="result-bar-row"><div class="result-bar-label">Bonnes rép.</div><div class="result-bar-track"><div class="result-bar-fill" style="width:${(quizState.correct/total)*100}%; background:var(--green)"></div></div><div class="result-bar-val">${quizState.correct}</div></div>`;
+  if(quizState.type==='reading'){scores.reading=Math.round(pct*0.3);updateDashboard();}
+  if(quizState.type==='grammar'){scores.listening=Math.round(pct*0.3);updateDashboard();}
+}
+
+function resetQuiz() { clearTimer('quiz-timer'); document.getElementById('quiz-active').style.display='none'; document.getElementById('quiz-results').style.display='none'; document.getElementById('quiz-setup').style.display='block'; }
+function getGrade(pct) { if(pct>=90)return'🏆 Excellent !'; if(pct>=75)return'👍 Très bien'; if(pct>=60)return'✓ Correct'; if(pct>=40)return'⚠ À retravailler'; return'❌ À reprendre'; }
+
+function filterVocab(cat) { renderVocab(cat); }
+function renderVocab(cat) {
+  const cards = cat==='all' ? VOCAB_CARDS : VOCAB_CARDS.filter(c=>c.cat===cat);
+  document.getElementById('vocab-grid').innerHTML = cards.map(c=>`
+    <div class="vocab-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-hint">↩ retourner</div>
+      <div class="vocab-front"><div class="vocab-word">${c.word}</div><div class="vocab-pos">${c.pos} · ${c.cat}</div><div class="vocab-hint">${c.hint}</div></div>
+      <div class="vocab-back"><div class="vocab-word">${c.word}</div><div class="vocab-def">${c.def}</div><div class="vocab-example">${c.example}</div></div>
+    </div>`).join('');
+}
+
+function loadWritingPrompt(type) {
+  document.getElementById('writing-feedback').innerHTML = '';
+  if(document.getElementById('writing-textarea')) document.getElementById('writing-textarea').value='';
+  updateWordCount();
+  let prompt;
+  if(type==='integrated') prompt=WRITING_PROMPTS.integrated[0];
+  else if(type==='independent') prompt=WRITING_PROMPTS.independent[Math.floor(Math.random()*WRITING_PROMPTS.independent.length)];
+  else { const all=[...WRITING_PROMPTS.integrated,...WRITING_PROMPTS.independent]; prompt=all[Math.floor(Math.random()*all.length)]; }
+  let html=`<div class="writing-prompt"><div class="label">${prompt.label} · ⏱ ${prompt.time} min · ${prompt.minWords}–${prompt.maxWords} mots</div>`;
+  if(prompt.passage) html+=`<div class="passage-text" style="margin-bottom:14px">${prompt.passage}</div>`;
+  html+=`<p style="font-size:15px; line-height:1.7">${prompt.prompt}</p></div>`;
+  document.getElementById('writing-prompt-box').innerHTML=html;
+  document.getElementById('writing-area-container').style.display='block';
+  document.getElementById('writing-textarea').dataset.min=prompt.minWords;
+  document.getElementById('writing-textarea').dataset.max=prompt.maxWords;
+}
+
+function updateWordCount() {
+  const ta=document.getElementById('writing-textarea'); if(!ta)return;
+  const count=ta.value.trim()?ta.value.trim().split(/\s+/).length:0;
+  const min=parseInt(ta.dataset.min||150);
+  const wc=document.getElementById('word-count');
+  wc.textContent=`${count} mots ${count>=min?'✓':`(min. ${min})`}`;
+  wc.className='word-count'+(count>=min?' ok':'');
+}
+
+function clearWriting() { document.getElementById('writing-textarea').value=''; document.getElementById('writing-feedback').innerHTML=''; updateWordCount(); }
+
+async function analyzeWriting() {
+  const text=document.getElementById('writing-textarea').value.trim();
+  if(!text||text.split(/\s+/).length<50){showToast('⚠ Écrivez au moins 50 mots avant d\'analyser.','error');return;}
+  const fb=document.getElementById('writing-feedback');
+  fb.innerHTML=`<div class="ai-feedback"><div class="label"><span class="spinner"></span>Analyse IA en cours...</div></div>`;
+  try {
+    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:`You are a TOEFL writing evaluator. Evaluate this student response on a scale of 1-5 for each criterion. Respond ONLY with a valid JSON object, no markdown, no preamble:\n{\n  "task": <1-5>,\n  "coherence": <1-5>,\n  "lexical": <1-5>,\n  "grammar": <1-5>,\n  "overall": <1-5>,\n  "feedback": "<2-3 concise sentences in French pointing out strengths and areas for improvement>",\n  "correction": "<One specific example correction from the text, in French>"\n}\n\nStudent text:\n${text.substring(0,800)}`}]})});
+    const data=await res.json();
+    const raw=data.content.filter(b=>b.type==='text').map(b=>b.text).join('');
+    const parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    const labels={task:'Task Achievement',coherence:'Cohérence',lexical:'Lexique',grammar:'Grammaire',overall:'Global'};
+    const gridHtml=Object.entries(labels).map(([k,l])=>`<div class="feedback-item"><div class="feedback-score">${parsed[k]}/5</div><div class="feedback-label">${l}</div></div>`).join('');
+    fb.innerHTML=`<div class="ai-feedback"><div class="label">✨ Évaluation IA — TOEFL Writing</div><div class="feedback-grid">${gridHtml}</div><div class="feedback-text" style="margin-bottom:10px">${parsed.feedback}</div>${parsed.correction?`<div class="explanation-box"><strong>Exemple de correction</strong>${parsed.correction}</div>`:''}</div>`;
+    scores.writing=Math.round(parsed.overall*6); updateDashboard();
+  } catch(e) { fb.innerHTML=`<div class="ai-feedback"><div class="label" style="color:var(--red)">Erreur d'analyse.</div><div class="feedback-text" style="margin-top:10px;font-size:12px">${e.message}</div></div>`; }
+}
+
+function startFullTest() {
+  TEST_SECTIONS[0].questions=shuffle([...READING_QUESTIONS,...READING_QUESTIONS]).slice(0,8);
+  TEST_SECTIONS[1].questions=shuffle([...GRAMMAR_QUESTIONS,...GRAMMAR_QUESTIONS]).slice(0,8);
+  TEST_SECTIONS[2].questions=shuffle([...VOCAB_QUESTIONS,...VOCAB_QUESTIONS]).slice(0,6);
+  testState.section=0; testState.sectionQ=0; testState.answers=[];
+  testState.scores={reading:0,listening:0,vocabulary:0};
+  document.getElementById('test-intro').style.display='none';
+  document.getElementById('test-results').style.display='none';
+  document.getElementById('test-active').style.display='block';
+  loadTestSection();
+}
+
+function loadTestSection() {
+  const sec=TEST_SECTIONS[testState.section];
+  document.getElementById('test-section-title').textContent=`Section: ${sec.name}`;
+  testState.sectionQ=0;
+  startTimer('test-timer', sec.time, ()=>advanceTestSection());
+  renderTestQuestion();
+}
+
+function renderTestQuestion() {
+  const sec=TEST_SECTIONS[testState.section];
+  const total=sec.questions.length;
+  document.getElementById('test-counter').textContent=`Section ${testState.section+1}/3 · Q${testState.sectionQ+1}/${total}`;
+  document.getElementById('test-progress').style.width=`${((testState.section*33)+(testState.sectionQ/total)*33)}%`;
+  document.getElementById('test-next-btn').disabled=true;
+  const q=sec.questions[testState.sectionQ];
+  let html=`<div class="question-card"><div class="question-type">${q.type}</div>`;
+  if(q.passage) html+=`<div class="passage-text">${q.passage}</div>`;
+  html+=`<div class="question-text">${q.question}</div><ul class="options-list">`;
+  ['A','B','C','D'].forEach((l,i)=>{ if(q.options[i]) html+=`<li><button class="option-btn" id="topt-${i}" onclick="selectTestAnswer(${i})"><span class="option-letter">${l}</span>${q.options[i]}</button></li>`; });
+  html+=`</ul></div>`;
+  document.getElementById('test-content').innerHTML=html;
+}
+
+function selectTestAnswer(idx) {
+  const q=TEST_SECTIONS[testState.section].questions[testState.sectionQ];
+  const isCorrect=idx===q.correct;
+  const key=['reading','listening','vocabulary'][testState.section];
+  if(isCorrect) testState.scores[key]=(testState.scores[key]||0)+1;
+  document.querySelectorAll('.option-btn').forEach((btn,i)=>{ btn.disabled=true; if(i===q.correct)btn.classList.add('correct'); else if(i===idx&&!isCorrect)btn.classList.add('wrong'); });
+  document.getElementById('test-next-btn').disabled=false;
+}
+
+function nextTestQuestion() { testState.sectionQ++; if(testState.sectionQ>=TEST_SECTIONS[testState.section].questions.length){advanceTestSection();return;} renderTestQuestion(); }
+function skipTestQuestion() { testState.sectionQ++; if(testState.sectionQ>=TEST_SECTIONS[testState.section].questions.length){advanceTestSection();return;} renderTestQuestion(); }
+
+function advanceTestSection() { clearTimer('test-timer'); testState.section++; if(testState.section>=TEST_SECTIONS.length){endFullTest();return;} loadTestSection(); }
+
+function endFullTest() {
+  clearTimer('test-timer');
+  document.getElementById('test-active').style.display='none';
+  document.getElementById('test-results').style.display='block';
+  const s=testState.scores;
+  const t=[TEST_SECTIONS[0].questions.length,TEST_SECTIONS[1].questions.length,TEST_SECTIONS[2].questions.length];
+  const rS=Math.round((s.reading/t[0])*30);
+  const lS=Math.round((s.listening/t[1])*30);
+  const vS=Math.round((s.vocabulary/t[2])*30);
+  const wS=scores.writing||20;
+  const total=Math.min(120,rS+lS+Math.round((vS+wS)/2));
+  document.getElementById('test-result-score').textContent=total;
+  let level='';
+  if(total>=110)level='🏆 Advanced — Admission aux meilleures universités';
+  else if(total>=90)level='👍 Upper-Intermediate — Très compétitif';
+  else if(total>=70)level='✓ Intermediate — Acceptable pour la plupart des programmes';
+  else level='⚠ À améliorer — Continuez l\'entraînement !';
+  document.getElementById('test-result-level').textContent=level;
+  scores.reading=rS; scores.listening=lS; scores.writing=wS; updateDashboard();
+  document.getElementById('test-result-bars').innerHTML=[
+    {label:'Reading',val:rS,max:30},{label:'Grammar',val:lS,max:30},{label:'Vocabulary',val:vS,max:30},{label:'TOTAL',val:total,max:120}
+  ].map(b=>`<div class="result-bar-row"><div class="result-bar-label">${b.label}</div><div class="result-bar-track"><div class="result-bar-fill" style="width:${(b.val/b.max)*100}%"></div></div><div class="result-bar-val">${b.val}</div></div>`).join('');
+}
+
+function resetTest() { document.getElementById('test-active').style.display='none'; document.getElementById('test-results').style.display='none'; document.getElementById('test-intro').style.display='block'; }
+
+function renderStrategies() {
+  document.getElementById('strategy-grid').innerHTML=STRATEGIES.map(s=>`
+    <div class="strategy-card">
+      <div class="strategy-num">${s.num}</div>
+      <div class="strategy-title">${s.title}</div>
+      <div style="margin-bottom:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);padding:2px 7px;border-radius:4px">${s.section}</span></div>
+      <div class="strategy-body">${s.body}</div>
+    </div>`).join('');
+}
+
+function updateDashboard() {
+  ['reading','listening','speaking','writing'].forEach(k=>{
+    const el=document.getElementById('score-'+k);
+    if(el) el.textContent=scores[k]!==null?scores[k]:'—';
+  });
+  const vals=Object.values(scores).filter(v=>v!==null);
+  const est=vals.length>0?Math.min(120,Math.round((vals.reduce((a,b)=>a+b,0)/vals.length)*4)):'—';
+  document.getElementById('global-score').textContent=`Score estimé: ${est==='—'?est:est+' / 120'}`;
+}
+
+const timers={};
+function startTimer(elId,seconds,onEnd){
+  clearTimer(elId); let left=seconds;
+  const el=document.getElementById(elId);
+  if(el) el.textContent=fmt(left);
+  timers[elId]=setInterval(()=>{ left--; if(el){el.textContent=fmt(left);el.className='timer'+(left<60?' warning':'');} if(left<=0){clearTimer(elId);onEnd&&onEnd();} },1000);
+}
+function clearTimer(elId){if(timers[elId]){clearInterval(timers[elId]);delete timers[elId];}}
+function fmt(s){const m=Math.floor(s/60),sec=s%60;return`${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;}
+function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
+function showToast(msg,type='info'){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.classList.remove('show'),2500);}
+
+updateDashboard();
+</script>
+</body>
+</html>
